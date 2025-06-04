@@ -14,6 +14,10 @@
 		<string>com.yourcompany.HealthWebhookApp.dailyMorningUpload</string>
 		<string>com.yourcompany.HealthWebhookApp.dailyEveningUpload</string>
 	</array>
+        <key>IntentsSupported</key>
+        <array>
+                <string>SendHealthDataIntent</string>
+        </array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
