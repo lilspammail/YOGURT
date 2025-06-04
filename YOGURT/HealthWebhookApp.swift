@@ -38,6 +38,9 @@ struct HealthWebhookApp: App {
                 UploadService.shared.scheduleHourly()
 
                 NotificationManager.shared.setupHourlyReminders()
+
+                // Start monitoring workout sessions
+                HealthKitManager.shared.startObservingWorkouts()
             }
 
             return true
