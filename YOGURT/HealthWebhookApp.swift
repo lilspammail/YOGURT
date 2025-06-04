@@ -63,13 +63,9 @@ struct HealthWebhookApp: App {
 
         func applicationDidBecomeActive(_ application: UIApplication) {
             print("🔔 App became active — forcing data sync")
-            HealthKitManager.shared.collectHourlyMetrics { metrics in
-                UploadService.shared.uploadHourlyMetricsOnce(metrics)
-            }
-            HealthKitManager.shared.collectCombinedSleepAnalysis {
-                if let sleep = $0 {
-                    UploadService.shared.uploadSleepAnalysis(sleep)
-                }
+            HealthDataFetcher.shared.fetchAllHealthData { payload in
+                UploadService.shared.uploadIfNeeded(metrics: payload.metrics)
+                UploadService.shared.uploadIfNeeded(sleep: payload.sleep)
             }
         }
     }
