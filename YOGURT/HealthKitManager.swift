@@ -492,11 +492,20 @@ final class HealthKitManager {
             ) { _, samples, _ in
                 let workouts = (samples as? [HKWorkout]) ?? []
                 let sessions = workouts.map { w in
-                    WorkoutSession(
+                    let calories: Double? = {
+                        if #available(iOS 18.0, *) {
+                            return w.statistics(forType: .activeEnergyBurned)?
+                                .sumQuantity()?
+                                .doubleValue(for: .kilocalorie())
+                        } else {
+                            return w.totalEnergyBurned?.doubleValue(for: .kilocalorie())
+                        }
+                    }()
+                    return WorkoutSession(
                         type: String(describing: w.workoutActivityType),
                         start: w.startDate.isoString,
                         end: w.endDate.isoString,
-                        calories: w.totalEnergyBurned?.doubleValue(for: .kilocalorie())
+                        calories: calories
                     )
                 }
                 DispatchQueue.main.async {
@@ -518,11 +527,20 @@ final class HealthKitManager {
         ) { _, samples, _ in
             let workouts = (samples as? [HKWorkout]) ?? []
             let sessions = workouts.map { w in
-                WorkoutSession(
+                let calories: Double? = {
+                    if #available(iOS 18.0, *) {
+                        return w.statistics(forType: .activeEnergyBurned)?
+                            .sumQuantity()?
+                            .doubleValue(for: .kilocalorie())
+                    } else {
+                        return w.totalEnergyBurned?.doubleValue(for: .kilocalorie())
+                    }
+                }()
+                return WorkoutSession(
                     type: String(describing: w.workoutActivityType),
                     start: w.startDate.isoString,
                     end: w.endDate.isoString,
-                    calories: w.totalEnergyBurned?.doubleValue(for: .kilocalorie())
+                    calories: calories
                 )
             }
             completion(sessions)
