@@ -1,0 +1,624 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		9D70A3A12DC2CB31005D06CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D70A38B2DC2CB30005D06CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9D70A3922DC2CB30005D06CD;
+			remoteInfo = YOGURT;
+		};
+		9D70A3AB2DC2CB31005D06CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D70A38B2DC2CB30005D06CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9D70A3922DC2CB30005D06CD;
+			remoteInfo = YOGURT;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9D70A3932DC2CB30005D06CD /* YoGurt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoGurt.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D70A3A02DC2CB31005D06CD /* YoGurtTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoGurtTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D70A3AA2DC2CB31005D06CD /* YoGurtUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YoGurtUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9D70A3BF2DC2CBF0005D06CD /* Exceptions for "YOGURT" folder in "YoGurt" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9D70A3922DC2CB30005D06CD /* YoGurt */;
+		};
+		9D70A3D82DC2D56B005D06CD /* Exceptions for "YOGURT" folder in "YoGurtUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ContentView.swift,
+				HealthKitManager.swift,
+				HealthWebhookApp.swift,
+				helper.swift,
+				Models.swift,
+				MoodSessionFull.swift,
+				NotificationManager.swift,
+				UploadService.swift,
+				WebhookClient.swift,
+			);
+			target = 9D70A3A92DC2CB31005D06CD /* YoGurtUITests */;
+		};
+		9D70A3D92DC2D56D005D06CD /* Exceptions for "YOGURT" folder in "YoGurtTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ContentView.swift,
+				HealthKitManager.swift,
+				HealthWebhookApp.swift,
+				helper.swift,
+				Models.swift,
+				MoodSessionFull.swift,
+				NotificationManager.swift,
+				UploadService.swift,
+				WebhookClient.swift,
+			);
+			target = 9D70A39F2DC2CB31005D06CD /* YoGurtTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		9D70A3952DC2CB30005D06CD /* YOGURT */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9D70A3BF2DC2CBF0005D06CD /* Exceptions for "YOGURT" folder in "YoGurt" target */,
+				9D70A3D92DC2D56D005D06CD /* Exceptions for "YOGURT" folder in "YoGurtTests" target */,
+				9D70A3D82DC2D56B005D06CD /* Exceptions for "YOGURT" folder in "YoGurtUITests" target */,
+			);
+			path = YOGURT;
+			sourceTree = "<group>";
+		};
+		9D70A3A32DC2CB31005D06CD /* YOGURTTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = YOGURTTests;
+			sourceTree = "<group>";
+		};
+		9D70A3AD2DC2CB31005D06CD /* YOGURTUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = YOGURTUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9D70A3902DC2CB30005D06CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D70A39D2DC2CB31005D06CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D70A3A72DC2CB31005D06CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9D70A38A2DC2CB30005D06CD = {
+			isa = PBXGroup;
+			children = (
+				9D70A3952DC2CB30005D06CD /* YOGURT */,
+				9D70A3A32DC2CB31005D06CD /* YOGURTTests */,
+				9D70A3AD2DC2CB31005D06CD /* YOGURTUITests */,
+				9D70A3942DC2CB30005D06CD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9D70A3942DC2CB30005D06CD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D70A3932DC2CB30005D06CD /* YoGurt.app */,
+				9D70A3A02DC2CB31005D06CD /* YoGurtTests.xctest */,
+				9D70A3AA2DC2CB31005D06CD /* YoGurtUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9D70A3922DC2CB30005D06CD /* YoGurt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D70A3B42DC2CB31005D06CD /* Build configuration list for PBXNativeTarget "YoGurt" */;
+			buildPhases = (
+				9D70A38F2DC2CB30005D06CD /* Sources */,
+				9D70A3902DC2CB30005D06CD /* Frameworks */,
+				9D70A3912DC2CB30005D06CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9D70A3952DC2CB30005D06CD /* YOGURT */,
+			);
+			name = YoGurt;
+			packageProductDependencies = (
+			);
+			productName = YOGURT;
+			productReference = 9D70A3932DC2CB30005D06CD /* YoGurt.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9D70A39F2DC2CB31005D06CD /* YoGurtTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D70A3B72DC2CB31005D06CD /* Build configuration list for PBXNativeTarget "YoGurtTests" */;
+			buildPhases = (
+				9D70A39C2DC2CB31005D06CD /* Sources */,
+				9D70A39D2DC2CB31005D06CD /* Frameworks */,
+				9D70A39E2DC2CB31005D06CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9D70A3A22DC2CB31005D06CD /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9D70A3952DC2CB30005D06CD /* YOGURT */,
+				9D70A3A32DC2CB31005D06CD /* YOGURTTests */,
+			);
+			name = YoGurtTests;
+			packageProductDependencies = (
+			);
+			productName = YOGURTTests;
+			productReference = 9D70A3A02DC2CB31005D06CD /* YoGurtTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9D70A3A92DC2CB31005D06CD /* YoGurtUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D70A3BA2DC2CB31005D06CD /* Build configuration list for PBXNativeTarget "YoGurtUITests" */;
+			buildPhases = (
+				9D70A3A62DC2CB31005D06CD /* Sources */,
+				9D70A3A72DC2CB31005D06CD /* Frameworks */,
+				9D70A3A82DC2CB31005D06CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9D70A3AC2DC2CB31005D06CD /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9D70A3952DC2CB30005D06CD /* YOGURT */,
+				9D70A3AD2DC2CB31005D06CD /* YOGURTUITests */,
+			);
+			name = YoGurtUITests;
+			packageProductDependencies = (
+			);
+			productName = YOGURTUITests;
+			productReference = 9D70A3AA2DC2CB31005D06CD /* YoGurtUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9D70A38B2DC2CB30005D06CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					9D70A3922DC2CB30005D06CD = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					9D70A39F2DC2CB31005D06CD = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 9D70A3922DC2CB30005D06CD;
+					};
+					9D70A3A92DC2CB31005D06CD = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 9D70A3922DC2CB30005D06CD;
+					};
+				};
+			};
+			buildConfigurationList = 9D70A38E2DC2CB30005D06CD /* Build configuration list for PBXProject "YoGurt" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9D70A38A2DC2CB30005D06CD;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 9D70A3942DC2CB30005D06CD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9D70A3922DC2CB30005D06CD /* YoGurt */,
+				9D70A39F2DC2CB31005D06CD /* YoGurtTests */,
+				9D70A3A92DC2CB31005D06CD /* YoGurtUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9D70A3912DC2CB30005D06CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D70A39E2DC2CB31005D06CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D70A3A82DC2CB31005D06CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9D70A38F2DC2CB30005D06CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D70A39C2DC2CB31005D06CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D70A3A62DC2CB31005D06CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9D70A3A22DC2CB31005D06CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9D70A3922DC2CB30005D06CD /* YoGurt */;
+			targetProxy = 9D70A3A12DC2CB31005D06CD /* PBXContainerItemProxy */;
+		};
+		9D70A3AC2DC2CB31005D06CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9D70A3922DC2CB30005D06CD /* YoGurt */;
+			targetProxy = 9D70A3AB2DC2CB31005D06CD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		9D70A3B22DC2CB31005D06CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = AEARFFB4QL;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9D70A3B32DC2CB31005D06CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AEARFFB4QL;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9D70A3B52DC2CB31005D06CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YOGURT/YOGURT.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AEARFFB4QL;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YOGURT/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Приложение читает данные о шагах, пульсе и активности для отправки на сервер.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Приложение читает данные о шагах, пульсе и активности для отправки на сервер.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-222.YOGURT";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9D70A3B62DC2CB31005D06CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YOGURT/YOGURT.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AEARFFB4QL;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YOGURT/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Приложение читает данные о шагах, пульсе и активности для отправки на сервер.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Приложение читает данные о шагах, пульсе и активности для отправки на сервер.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-222.YOGURT";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9D70A3B82DC2CB31005D06CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AEARFFB4QL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-222.YOGURTTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YoGurt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YoGurt";
+			};
+			name = Debug;
+		};
+		9D70A3B92DC2CB31005D06CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AEARFFB4QL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-222.YOGURTTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YoGurt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YoGurt";
+			};
+			name = Release;
+		};
+		9D70A3BB2DC2CB31005D06CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AEARFFB4QL;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-222.YOGURTUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = YOGURT;
+			};
+			name = Debug;
+		};
+		9D70A3BC2DC2CB31005D06CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AEARFFB4QL;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-222.YOGURTUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = YOGURT;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9D70A38E2DC2CB30005D06CD /* Build configuration list for PBXProject "YoGurt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D70A3B22DC2CB31005D06CD /* Debug */,
+				9D70A3B32DC2CB31005D06CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D70A3B42DC2CB31005D06CD /* Build configuration list for PBXNativeTarget "YoGurt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D70A3B52DC2CB31005D06CD /* Debug */,
+				9D70A3B62DC2CB31005D06CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D70A3B72DC2CB31005D06CD /* Build configuration list for PBXNativeTarget "YoGurtTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D70A3B82DC2CB31005D06CD /* Debug */,
+				9D70A3B92DC2CB31005D06CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D70A3BA2DC2CB31005D06CD /* Build configuration list for PBXNativeTarget "YoGurtUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D70A3BB2DC2CB31005D06CD /* Debug */,
+				9D70A3BC2DC2CB31005D06CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9D70A38B2DC2CB30005D06CD /* Project object */;
+}

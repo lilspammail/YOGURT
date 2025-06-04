@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>Мы используем уведомления, чтобы напоминать о синхронизации данных.</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.yourcompany.HealthWebhookApp.hourlyUpload</string>
+		<string>com.yourcompany.HealthWebhookApp.dailyMorningUpload</string>
+		<string>com.yourcompany.HealthWebhookApp.dailyEveningUpload</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+	</array>
+</dict>
+</plist>
