@@ -28,6 +28,20 @@ struct HealthWebhookApp: App {
                 UploadService.shared.handleHourly(task: task as! BGProcessingTask)
             }
 
+            BGTaskScheduler.shared.register(
+                forTaskWithIdentifier: "com.yourcompany.HealthWebhookApp.dailyMorningUpload",
+                using: nil
+            ) { task in
+                UploadService.shared.handleDailyMorning(task: task as! BGProcessingTask)
+            }
+
+            BGTaskScheduler.shared.register(
+                forTaskWithIdentifier: "com.yourcompany.HealthWebhookApp.dailyEveningUpload",
+                using: nil
+            ) { task in
+                UploadService.shared.handleDailyEvening(task: task as! BGProcessingTask)
+            }
+
             // 2️⃣ Запрашиваем права HealthKit и запускаем задачи + уведомления
             HealthKitManager.shared.requestAuthorization { success, error in
                 guard success else {
@@ -36,6 +50,8 @@ struct HealthWebhookApp: App {
                 }
                 print("✅ HealthKit auth granted")
                 UploadService.shared.scheduleHourly()
+                UploadService.shared.scheduleDailyMorning()
+                UploadService.shared.scheduleDailyEvening()
 
                 NotificationManager.shared.setupHourlyReminders()
             }
