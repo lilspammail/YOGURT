@@ -4,6 +4,10 @@
 <dict>
 	<key>NSUserNotificationUsageDescription</key>
 	<string>Мы используем уведомления, чтобы напоминать о синхронизации данных.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Нам нужен доступ на чтение данных HealthKit, чтобы анализировать вашу активность и сон.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Мы записываем настроение в HealthKit для ведения истории в Здоровье.</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.yourcompany.HealthWebhookApp.hourlyUpload</string>
