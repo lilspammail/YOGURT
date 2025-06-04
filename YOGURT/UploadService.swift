@@ -91,6 +91,22 @@ final class UploadService {
         }
     }
 
+    // Отправка обновленных метрик по наблюдателям
+    func uploadHourlyMetrics(_ metrics: [HourlyMetric]) {
+        let payload = buildPayload(metrics: metrics)
+        client.send(payload: payload) { result in
+            print("📤 Metrics update sent:", result)
+        }
+    }
+
+    // Отправка новой информации о сне
+    func uploadSleepAnalysis(_ analysis: SleepAnalysis) {
+        let payload = buildPayload(sleepAnalysis: analysis)
+        client.send(payload: payload) { result in
+            print("📤 Sleep analysis sent:", result)
+        }
+    }
+
     // MARK: — Payload constructor
     private func buildPayload(
         metrics: [HourlyMetric]? = nil,

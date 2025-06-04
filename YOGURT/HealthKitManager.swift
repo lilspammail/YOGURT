@@ -453,6 +453,61 @@ final class HealthKitManager {
 
         store.execute(query)
     }
+
+    // MARK: — Observer Queries
+
+    func startObservers() {
+        let quantityIds: [HKQuantityTypeIdentifier] = [
+            .stepCount,
+            .distanceWalkingRunning,
+            .activeEnergyBurned,
+            .appleExerciseTime,
+            .heartRate,
+            .restingHeartRate,
+            .heartRateVariabilitySDNN
+        ]
+
+        for id in quantityIds {
+            if let type = HKObjectType.quantityType(forIdentifier: id) {
+                let observer = HKObserverQuery(sampleType: type, predicate: nil) { [weak self] _, completion, error in
+                    guard error == nil else { completion(); return }
+                    self?.collectHourlyMetrics { metrics in
+                        UploadService.shared.uploadHourlyMetrics(metrics)
+                        completion()
+                    }
+                }
+                store.execute(observer)
+                store.enableBackgroundDelivery(for: type, frequency: .immediate) { _,_ in }
+            }
+        }
+
+        let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
+        let sleepObserver = HKObserverQuery(sampleType: sleepType, predicate: nil) { [weak self] _, completion, error in
+            guard error == nil else { completion(); return }
+            self?.collectCombinedSleepAnalysis { analysis in
+                if let analysis = analysis { UploadService.shared.uploadSleepAnalysis(analysis) }
+                completion()
+            }
+        }
+        store.execute(sleepObserver)
+        store.enableBackgroundDelivery(for: sleepType, frequency: .immediate) { _,_ in }
+
+        if #available(iOS 15.0, *) {
+            if let mindful = HKObjectType.categoryType(forIdentifier: .mindfulSession) {
+                let obs = HKObserverQuery(sampleType: mindful, predicate: nil) { [weak self] _, completion, error in
+                    guard error == nil else { completion(); return }
+                    self?.collectHourlyMetrics { metrics in
+                        UploadService.shared.uploadHourlyMetrics(metrics)
+                        completion()
+                    }
+                }
+                store.execute(obs)
+                store.enableBackgroundDelivery(for: mindful, frequency: .immediate) { _,_ in }
+            }
+        }
+
+        startObservingWorkouts()
+    }
     
     
     func startObservers() {
@@ -499,7 +554,7 @@ final class HealthKitManager {
         ) { [weak self] _, completion, error in
             guard error == nil else { completion(); return }
             self?.fetchRecentWorkouts { sessions in
-                    //sessions.forEach { UploadService.shared.handleWorkoutEvent($0) }
+                sessions.forEach { UploadService.shared.handleWorkoutEvent($0) }
                 completion()
             }
         }
