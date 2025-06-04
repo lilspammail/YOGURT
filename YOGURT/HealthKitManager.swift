@@ -477,15 +477,15 @@ final class HealthKitManager {
 
         for type in typesToObserve {
             let query = HKObserverQuery(sampleType: type, predicate: nil) { _, completion, _ in
-                print("\uD83D\uDD04 \u041E\u0431\u043D\u043E\u0432\u043B\u0435\u043D\u044B \u0434\u0430\u043D\u043D\u044B\u0435 \u043F\u043E \u0442\u0438\u043F\u0443: \(type.identifier)")
+                print("🔄 Обновлены данные по типу: \(type.identifier)")
                 completion()
             }
             store.execute(query)
             store.enableBackgroundDelivery(for: type, frequency: .immediate) { success, error in
                 if success {
-                    print("\u2705 \u0412\u043A\u043B\u044E\u0447\u0435\u043D\u043E \u0444\u043E\u043D. \u043E\u0442\u0441\u043B\u0435\u0436\u0438\u0432\u0430\u043D\u0438\u0435 \u0434\u043B\u044F: \(type.identifier)")
+                    print("✅ Включено фоновое отслеживание для: \(type.identifier)")
                 } else {
-                    print("\u274C \u041E\u0448\u0438\u0431\u043A\u0430 \u0434\u043B\u044F \(type.identifier): \(error?.localizedDescription ?? \"unknown\")")
+                    print("❌ Ошибка для \(type.identifier): \(error?.localizedDescription ?? \"unknown\")")
                 }
             }
         }
