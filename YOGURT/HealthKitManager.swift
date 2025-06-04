@@ -275,7 +275,7 @@ final class HealthKitManager {
             sortDescriptors: nil
         ) { _, samples, _ in
             var inBed: TimeInterval = 0, deep: TimeInterval = 0, light: TimeInterval = 0, rem: TimeInterval = 0
-            for case let s as HKCategorySample in (samples as? [HKCategorySample] ?? []) {
+            for s in (samples as? [HKCategorySample] ?? []) {
                 let dur = s.endDate.timeIntervalSince(s.startDate)
                 switch s.value {
                 case HKCategoryValueSleepAnalysis.inBed.rawValue: inBed += dur
@@ -386,7 +386,7 @@ final class HealthKitManager {
             sortDescriptors: nil
         ) { _, samples, _ in
             var inBed: TimeInterval = 0, deep: TimeInterval = 0, light: TimeInterval = 0, rem: TimeInterval = 0
-            for case let s as HKCategorySample in (samples as? [HKCategorySample] ?? []) {
+            for s in (samples as? [HKCategorySample] ?? []) {
                 let dur = s.endDate.timeIntervalSince(s.startDate)
                 switch s.value {
                 case HKCategoryValueSleepAnalysis.inBed.rawValue: inBed += dur
@@ -610,7 +610,7 @@ final class HealthKitManager {
             sortDescriptors: nil
         ) { _, samples, _ in
             var inBed: TimeInterval = 0, deep: TimeInterval = 0, light: TimeInterval = 0, rem: TimeInterval = 0
-            for case let s as HKCategorySample in (samples as? [HKCategorySample] ?? []) {
+            for s in (samples as? [HKCategorySample] ?? []) {
                 let dur = s.endDate.timeIntervalSince(s.startDate)
                 switch s.value {
                 case HKCategoryValueSleepAnalysis.inBed.rawValue: inBed += dur
