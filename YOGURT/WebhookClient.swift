@@ -15,16 +15,13 @@ final class WebhookClient {
         req.httpMethod = "POST"
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        do {
-            let jsonData = try JSONEncoder().encode(payload)
-            req.httpBody = jsonData
-
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print("📦 Sending payload JSON:\n\(jsonString)")
-            }
-        } catch {
-            print("❌ Failed to encode payload: \(error)")
-            completion?(.failure(error))
+        if let jsonString = encodeToJSON(payload) {
+            req.httpBody = jsonString.data(using: .utf8)
+            print("📦 Sending payload JSON:\n\(jsonString)")
+        } else {
+            let err = NSError(domain: "WebhookClient", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to encode payload"])
+            print("❌ Failed to encode payload")
+            completion?(.failure(err))
             return
         }
 
