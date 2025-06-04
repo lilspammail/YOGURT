@@ -9,10 +9,7 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 20) {
             Button("Send Hourly Now") {
-                HealthDataFetcher.shared.fetchAllHealthData { payload in
-                    UploadService.shared.uploadIfNeeded(metrics: payload.metrics)
-                    UploadService.shared.uploadIfNeeded(sleep: payload.sleep)
-                }
+                UploadService.shared.debugSendHourlyNow()
             }
         }
         .padding()
@@ -24,10 +21,7 @@ struct ContentView: View {
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 print("🔔 Scene became active — forcing data sync")
-                HealthDataFetcher.shared.fetchAllHealthData { payload in
-                    UploadService.shared.uploadIfNeeded(metrics: payload.metrics)
-                    UploadService.shared.uploadIfNeeded(sleep: payload.sleep)
-                }
+                UploadService.shared.debugSendHourlyNow()
             }
         }
     }

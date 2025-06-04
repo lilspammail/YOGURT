@@ -45,6 +45,10 @@ final class HealthKitManager {
     private let store = HKHealthStore()
     private init() {}
 
+    // MARK: - Anchors & Cache
+    private var anchors: [String: HKQueryAnchor] = [:]
+    private var metricsCache: [HKQuantityTypeIdentifier: MetricAccumulator] = [:]
+
     // MARK: — Запрос разрешений
     func requestAuthorization(completion: @escaping (Bool, Error?) -> Void = { _,_ in }) {
         var read: Set<HKObjectType> = [
@@ -114,6 +118,78 @@ final class HealthKitManager {
             completion(stats)
         }
         store.execute(query)
+    }
+
+    private func fetchNewSamples(for type: HKSampleType, completion: @escaping () -> Void) {
+        let identifier = type.identifier
+        let anchor = anchors[identifier] ?? loadAnchor(for: identifier)
+        let query = HKAnchoredObjectQuery(type: type, predicate: nil, anchor: anchor, limit: HKObjectQueryNoLimit) { [weak self] _, samples, _, newAnchor, _ in
+            guard let self = self else { completion(); return }
+            if let newAnchor = newAnchor {
+                self.anchors[identifier] = newAnchor
+                self.saveAnchor(newAnchor, for: identifier)
+            }
+
+            if let quantitySamples = samples as? [HKQuantitySample] {
+                self.processQuantitySamples(quantitySamples)
+            }
+            completion()
+        }
+        store.execute(query)
+    }
+
+    private func processQuantitySamples(_ samples: [HKQuantitySample]) {
+        for sample in samples {
+            guard let id = HKQuantityTypeIdentifier(rawValue: sample.quantityType.identifier) else { continue }
+            let unit: HKUnit
+            switch id {
+            case .stepCount: unit = .count()
+            case .distanceWalkingRunning: unit = .meter()
+            case .activeEnergyBurned: unit = .kilocalorie()
+            case .appleExerciseTime: unit = .minute()
+            case .heartRate, .restingHeartRate: unit = .count().unitDivided(by: .minute())
+            case .oxygenSaturation: unit = .percent()
+            case .heartRateVariabilitySDNN: unit = .secondUnit(with: .milli)
+            default: continue
+            }
+            let value = sample.quantity.doubleValue(for: unit)
+            var acc = metricsCache[id] ?? MetricAccumulator()
+            acc.sum += value
+            acc.count += 1
+            if acc.min == nil || value < acc.min! { acc.min = value }
+            if acc.max == nil || value > acc.max! { acc.max = value }
+            metricsCache[id] = acc
+        }
+    }
+
+    func cachedHourlyMetrics() -> [HourlyMetric] {
+        let now = Date()
+        let start = Calendar.current.startOfDay(for: now)
+        var results: [HourlyMetric] = []
+        let interval = Interval(start: start.isoString, end: now.isoString)
+
+        if let steps = metricsCache[.stepCount] {
+            results.append(HourlyMetric(metricType: "stepCount", value: .single(steps.sum), interval: interval))
+        }
+        if let dist = metricsCache[.distanceWalkingRunning] {
+            results.append(HourlyMetric(metricType: "distanceWalkingRunning", value: .single(dist.sum), interval: interval))
+        }
+        if let energy = metricsCache[.activeEnergyBurned] {
+            results.append(HourlyMetric(metricType: "activeEnergyBurned", value: .single(energy.sum), interval: interval))
+        }
+        if let exercise = metricsCache[.appleExerciseTime] {
+            results.append(HourlyMetric(metricType: "appleExerciseTime", value: .single(exercise.sum), interval: interval))
+        }
+        if let hr = metricsCache[.heartRate] {
+            let avg = hr.count > 0 ? hr.sum / Double(hr.count) : 0
+            results.append(HourlyMetric(metricType: "heartRate", value: .triple(min: hr.min ?? 0, avg: avg, max: hr.max ?? 0), interval: interval))
+        }
+        if let oxy = metricsCache[.oxygenSaturation] {
+            let avg = oxy.count > 0 ? oxy.sum / Double(oxy.count) : 0
+            results.append(HourlyMetric(metricType: "oxygenSaturation", value: .single(avg), interval: interval))
+        }
+
+        return results
     }
 
     // MARK: — Ежечасные метрики
@@ -475,12 +551,7 @@ final class HealthKitManager {
             if let type = HKObjectType.quantityType(forIdentifier: id) {
                 let observer = HKObserverQuery(sampleType: type, predicate: nil) { [weak self] _, completion, error in
                     guard error == nil else { completion(); return }
-                    self?.collectHourlyMetrics { metrics in
-                        let stamp = metrics.last?.interval.end ?? ISO8601DateFormatter().string(from: Date())
-                        let payload = HealthMetricsPayload(timestamp: stamp, metrics: metrics)
-                        UploadService.shared.uploadIfNeeded(metrics: payload)
-                        completion()
-                    }
+                    self?.fetchNewSamples(for: type) { completion() }
                 }
                 store.execute(observer)
                 store.enableBackgroundDelivery(for: type, frequency: .immediate) { _,_ in }
@@ -490,12 +561,7 @@ final class HealthKitManager {
         let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
         let sleepObserver = HKObserverQuery(sampleType: sleepType, predicate: nil) { [weak self] _, completion, error in
             guard error == nil else { completion(); return }
-            self?.collectCombinedSleepAnalysis { analysis in
-                if let analysis = analysis {
-                    UploadService.shared.uploadIfNeeded(sleep: analysis)
-                }
-                completion()
-            }
+            self?.fetchNewSamples(for: sleepType) { completion() }
         }
         store.execute(sleepObserver)
         store.enableBackgroundDelivery(for: sleepType, frequency: .immediate) { _,_ in }
@@ -504,12 +570,7 @@ final class HealthKitManager {
             if let mindful = HKObjectType.categoryType(forIdentifier: .mindfulSession) {
                 let obs = HKObserverQuery(sampleType: mindful, predicate: nil) { [weak self] _, completion, error in
                     guard error == nil else { completion(); return }
-                    self?.collectHourlyMetrics { metrics in
-                        let stamp = metrics.last?.interval.end ?? ISO8601DateFormatter().string(from: Date())
-                        let payload = HealthMetricsPayload(timestamp: stamp, metrics: metrics)
-                        UploadService.shared.uploadIfNeeded(metrics: payload)
-                        completion()
-                    }
+                    self?.fetchNewSamples(for: mindful) { completion() }
                 }
                 store.execute(obs)
                 store.enableBackgroundDelivery(for: mindful, frequency: .immediate) { _,_ in }
@@ -697,6 +758,31 @@ final class HealthKitManager {
             }
         }
         self.store.execute(query)
+    }
+}
+
+// MARK: - Helpers
+private struct MetricAccumulator {
+    var sum: Double = 0
+    var count: Int = 0
+    var min: Double?
+    var max: Double?
+}
+
+private extension HealthKitManager {
+    func anchorKey(for identifier: String) -> String { "Anchor_\(identifier)" }
+
+    func loadAnchor(for identifier: String) -> HKQueryAnchor? {
+        if let data = UserDefaults.standard.data(forKey: anchorKey(for: identifier)) {
+            return try? NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: data)
+        }
+        return nil
+    }
+
+    func saveAnchor(_ anchor: HKQueryAnchor, for identifier: String) {
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: anchor, requiringSecureCoding: true) {
+            UserDefaults.standard.set(data, forKey: anchorKey(for: identifier))
+        }
     }
 }
 
