@@ -319,7 +319,7 @@ final class HealthKitManager {
     func collectDailyEveningMetrics(completion: @escaping (DailyEvening) -> Void) {
         let cal = Calendar.current
         let now = Date()
-        let startToday = cal.startOfDay( for: now)
+        let startToday = cal.startOfDay(for: now)
         let group = DispatchGroup()
         var steps = 0, calories = 0.0, weight = 0.0, bmi = 0.0
         var sleepToday: SleepAnalysis? = nil
@@ -479,32 +479,6 @@ final class HealthKitManager {
             options: []
         )
         
-        func collectDailyWorkoutSessions(completion: @escaping ([WorkoutSession]) -> Void) {
-            let startOfDay = Calendar.current.startOfDay(for: Date())
-            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: [])
-            let sort = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
-            
-            let query = HKSampleQuery(
-                sampleType: HKObjectType.workoutType(),
-                predicate: predicate,
-                limit: HKObjectQueryNoLimit,
-                sortDescriptors: [sort]
-            ) { _, samples, _ in
-                let workouts = (samples as? [HKWorkout]) ?? []
-                let sessions = workouts.map { w in
-                    WorkoutSession(
-                        type: String(describing: w.workoutActivityType),
-                        start: w.startDate.isoString,
-                        end: w.endDate.isoString,
-                        calories: w.totalEnergyBurned?.doubleValue(for: .kilocalorie())
-                    )
-                }
-                DispatchQueue.main.async {
-                    completion(sessions)
-                }
-            }
-            store.execute(query)
-        }
         
         let sort = NSSortDescriptor(
             key: HKSampleSortIdentifierStartDate,
@@ -526,6 +500,33 @@ final class HealthKitManager {
                 )
             }
             completion(sessions)
+        }
+        store.execute(query)
+    }
+
+    private func collectDailyWorkoutSessions(completion: @escaping ([WorkoutSession]) -> Void) {
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: [])
+        let sort = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+
+        let query = HKSampleQuery(
+            sampleType: HKObjectType.workoutType(),
+            predicate: predicate,
+            limit: HKObjectQueryNoLimit,
+            sortDescriptors: [sort]
+        ) { _, samples, _ in
+            let workouts = (samples as? [HKWorkout]) ?? []
+            let sessions = workouts.map { w in
+                WorkoutSession(
+                    type: String(describing: w.workoutActivityType),
+                    start: w.startDate.isoString,
+                    end: w.endDate.isoString,
+                    calories: w.totalEnergyBurned?.doubleValue(for: .kilocalorie())
+                )
+            }
+            DispatchQueue.main.async {
+                completion(sessions)
+            }
         }
         store.execute(query)
     }
