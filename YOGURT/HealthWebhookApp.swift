@@ -37,6 +37,8 @@ struct HealthWebhookApp: App {
                 print("✅ HealthKit auth granted")
                 UploadService.shared.scheduleHourly()
 
+                HealthKitManager.shared.startObservers()
+
                 NotificationManager.shared.setupHourlyReminders()
             }
 
