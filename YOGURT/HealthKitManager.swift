@@ -61,7 +61,7 @@ final class HealthKitManager {
             HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
         ]
 
-        var write: Set<HKSampleType> = []
+        let write: Set<HKSampleType> = []
 
         if #available(iOS 14.0, *) {
             if let standType = HKQuantityType.quantityType(
