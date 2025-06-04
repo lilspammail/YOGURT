@@ -18,7 +18,7 @@ struct ContentView: View {
                 print("HealthKit auth:", ok, err ?? "")
             }
         }
-        .onChange(of: scenePhase) { newPhase in
+        .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 print("🔔 Scene became active — forcing data sync")
                 UploadService.shared.debugSendHourlyNow()
