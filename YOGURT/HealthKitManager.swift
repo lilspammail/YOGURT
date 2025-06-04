@@ -140,7 +140,7 @@ final class HealthKitManager {
 
     private func processQuantitySamples(_ samples: [HKQuantitySample]) {
         for sample in samples {
-            guard let id = HKQuantityTypeIdentifier(rawValue: sample.quantityType.identifier) else { continue }
+            let id = HKQuantityTypeIdentifier(rawValue: sample.quantityType.identifier)
             let unit: HKUnit
             switch id {
             case .stepCount: unit = .count()
