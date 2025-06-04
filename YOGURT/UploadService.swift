@@ -8,6 +8,9 @@ final class UploadService {
         webhookURL: URL(string: "https://wordpressdev.karpovpartners-it.ru/health/index.php")!
     )
 
+    // Запоминаем последнюю успешную отправку, чтобы избегать дубликатов
+    private var lastSentTimestamp: String?
+
     private init() {}
 
     // MARK: — Планирование фоновых задач
@@ -165,6 +168,17 @@ final class UploadService {
         client.send(payload: payload) { result in
             print("📤 Metrics update sent:", result)
         }
+    }
+
+    /// Безопасная отправка метрик, предотвращающая дубли
+    func uploadHourlyMetricsOnce(_ metrics: [HourlyMetric]) {
+        guard let stamp = metrics.first?.interval.end else { return }
+        if stamp == lastSentTimestamp {
+            print("⛔️ Duplicate metrics. Skipping upload.")
+            return
+        }
+        lastSentTimestamp = stamp
+        uploadHourlyMetrics(metrics)
     }
 
     // Отправка новой информации о сне
