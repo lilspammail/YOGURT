@@ -63,10 +63,7 @@ struct HealthWebhookApp: App {
 
         func applicationDidBecomeActive(_ application: UIApplication) {
             print("🔔 App became active — forcing data sync")
-            HealthDataFetcher.shared.fetchAllHealthData { payload in
-                UploadService.shared.uploadIfNeeded(metrics: payload.metrics)
-                UploadService.shared.uploadIfNeeded(sleep: payload.sleep)
-            }
+            UploadService.shared.debugSendHourlyNow()
         }
     }
     
