@@ -9,7 +9,9 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 20) {
             Button("Send Hourly Now") {
-                UploadService.shared.debugSendHourlyNow()
+                HealthKitManager.shared.collectHourlyMetrics { metrics in
+                    UploadService.shared.uploadHourlyMetricsOnce(metrics)
+                }
             }
         }
         .padding()
@@ -21,7 +23,14 @@ struct ContentView: View {
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 print("🔔 Scene became active — forcing data sync")
-                UploadService.shared.debugSendHourlyNow()
+                HealthKitManager.shared.collectHourlyMetrics { metrics in
+                    UploadService.shared.uploadHourlyMetricsOnce(metrics)
+                }
+                HealthKitManager.shared.collectCombinedSleepAnalysis {
+                    if let sleep = $0 {
+                        UploadService.shared.uploadSleepAnalysis(sleep)
+                    }
+                }
             }
         }
     }

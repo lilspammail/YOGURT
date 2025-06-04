@@ -54,9 +54,7 @@ struct HealthWebhookApp: App {
                 UploadService.shared.scheduleDailyEvening()
 
                 HealthKitManager.shared.startObservers()
-
                 NotificationManager.shared.setupHourlyReminders()
-                HealthKitManager.shared.startObservers()
                 HealthKitManager.shared.startObservingWorkouts()
             }
 
@@ -65,7 +63,14 @@ struct HealthWebhookApp: App {
 
         func applicationDidBecomeActive(_ application: UIApplication) {
             print("🔔 App became active — forcing data sync")
-            UploadService.shared.debugSendHourlyNow()
+            HealthKitManager.shared.collectHourlyMetrics { metrics in
+                UploadService.shared.uploadHourlyMetricsOnce(metrics)
+            }
+            HealthKitManager.shared.collectCombinedSleepAnalysis {
+                if let sleep = $0 {
+                    UploadService.shared.uploadSleepAnalysis(sleep)
+                }
+            }
         }
     }
     

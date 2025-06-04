@@ -472,7 +472,7 @@ final class HealthKitManager {
                 let observer = HKObserverQuery(sampleType: type, predicate: nil) { [weak self] _, completion, error in
                     guard error == nil else { completion(); return }
                     self?.collectHourlyMetrics { metrics in
-                        UploadService.shared.uploadHourlyMetrics(metrics)
+                        UploadService.shared.uploadHourlyMetricsOnce(metrics)
                         completion()
                     }
                 }
@@ -497,7 +497,7 @@ final class HealthKitManager {
                 let obs = HKObserverQuery(sampleType: mindful, predicate: nil) { [weak self] _, completion, error in
                     guard error == nil else { completion(); return }
                     self?.collectHourlyMetrics { metrics in
-                        UploadService.shared.uploadHourlyMetrics(metrics)
+                        UploadService.shared.uploadHourlyMetricsOnce(metrics)
                         completion()
                     }
                 }
