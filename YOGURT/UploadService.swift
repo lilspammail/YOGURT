@@ -18,11 +18,45 @@ final class UploadService {
         try? BGTaskScheduler.shared.submit(request)
     }
 
+    func scheduleDailyMorning() {
+        let request = BGProcessingTaskRequest(identifier: "com.yourcompany.HealthWebhookApp.dailyMorningUpload")
+        request.requiresNetworkConnectivity = true
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 24 * 3600)
+        try? BGTaskScheduler.shared.submit(request)
+    }
+
+    func scheduleDailyEvening() {
+        let request = BGProcessingTaskRequest(identifier: "com.yourcompany.HealthWebhookApp.dailyEveningUpload")
+        request.requiresNetworkConnectivity = true
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 24 * 3600)
+        try? BGTaskScheduler.shared.submit(request)
+    }
+
     // MARK: — Обработка фоновых задач
     func handleHourly(task: BGProcessingTask) {
         scheduleHourly()
         task.expirationHandler = { task.setTaskCompleted(success: false) }
         collectHourlyPayload { payload in
+            self.client.send(payload: payload) { result in
+                task.setTaskCompleted(success: (try? result.get()) != nil)
+            }
+        }
+    }
+
+    func handleDailyMorning(task: BGProcessingTask) {
+        scheduleDailyMorning()
+        task.expirationHandler = { task.setTaskCompleted(success: false) }
+        collectDailyMorningPayload { payload in
+            self.client.send(payload: payload) { result in
+                task.setTaskCompleted(success: (try? result.get()) != nil)
+            }
+        }
+    }
+
+    func handleDailyEvening(task: BGProcessingTask) {
+        scheduleDailyEvening()
+        task.expirationHandler = { task.setTaskCompleted(success: false) }
+        collectDailyEveningPayload { payload in
             self.client.send(payload: payload) { result in
                 task.setTaskCompleted(success: (try? result.get()) != nil)
             }
@@ -72,6 +106,40 @@ final class UploadService {
                     }
                 }
             }
+        }
+    }
+
+    private func collectDailyMorningPayload(completion: @escaping (HealthPayload) -> Void) {
+        HealthKitManager.shared.collectDailyMorningMetrics { morning in
+            let payload = HealthPayload(
+                deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "unknown",
+                timestamp: ISO8601DateFormatter().string(from: Date()),
+                hourlyMetrics: nil,
+                workoutSessions: nil,
+                dailyMorning: morning,
+                dailyEvening: nil,
+                sleepAnalysis: nil,
+                moodSessions: nil,
+                healthEvents: nil
+            )
+            completion(payload)
+        }
+    }
+
+    private func collectDailyEveningPayload(completion: @escaping (HealthPayload) -> Void) {
+        HealthKitManager.shared.collectDailyEveningMetrics { evening in
+            let payload = HealthPayload(
+                deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "unknown",
+                timestamp: ISO8601DateFormatter().string(from: Date()),
+                hourlyMetrics: nil,
+                workoutSessions: nil,
+                dailyMorning: nil,
+                dailyEvening: evening,
+                sleepAnalysis: nil,
+                moodSessions: nil,
+                healthEvents: nil
+            )
+            completion(payload)
         }
     }
 
