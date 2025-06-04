@@ -47,6 +47,7 @@
 				Models.swift,
 				MoodSessionFull.swift,
 				NotificationManager.swift,
+				ScreenTimeUploadService.swift,
 				UploadService.swift,
 				WebhookClient.swift,
 			);
@@ -62,6 +63,7 @@
 				Models.swift,
 				MoodSessionFull.swift,
 				NotificationManager.swift,
+				ScreenTimeUploadService.swift,
 				UploadService.swift,
 				WebhookClient.swift,
 			);
