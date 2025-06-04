@@ -9,7 +9,8 @@ final class UploadService {
     )
 
     // Запоминаем последнюю успешную отправку, чтобы избегать дубликатов
-    private var lastSentTimestamp: String?
+    private var lastMetricsTimestamp: String?
+    private var lastSleepTimestamp: String?
 
     private init() {}
 
@@ -163,30 +164,36 @@ final class UploadService {
     }
 
     // Отправка обновленных метрик по наблюдателям
-    func uploadHourlyMetrics(_ metrics: [HourlyMetric]) {
-        let payload = buildPayload(metrics: metrics)
-        client.send(payload: payload) { result in
+    private func uploadMetrics(_ payload: HealthMetricsPayload) {
+        let healthPayload = buildPayload(metrics: payload.metrics)
+        client.send(payload: healthPayload) { result in
             print("📤 Metrics update sent:", result)
         }
     }
 
-    /// Безопасная отправка метрик, предотвращающая дубли
-    func uploadHourlyMetricsOnce(_ metrics: [HourlyMetric]) {
-        guard let stamp = metrics.first?.interval.end else { return }
-        if stamp == lastSentTimestamp {
+    func uploadIfNeeded(metrics payload: HealthMetricsPayload) {
+        guard payload.timestamp != lastMetricsTimestamp else {
             print("⛔️ Duplicate metrics. Skipping upload.")
             return
         }
-        lastSentTimestamp = stamp
-        uploadHourlyMetrics(metrics)
+        lastMetricsTimestamp = payload.timestamp
+        uploadMetrics(payload)
     }
 
-    // Отправка новой информации о сне
-    func uploadSleepAnalysis(_ analysis: SleepAnalysis) {
-        let payload = buildPayload(sleepAnalysis: analysis)
-        client.send(payload: payload) { result in
+    private func uploadSleepAnalysis(_ analysis: SleepAnalysis) {
+        let healthPayload = buildPayload(sleepAnalysis: analysis)
+        client.send(payload: healthPayload) { result in
             print("📤 Sleep analysis sent:", result)
         }
+    }
+
+    func uploadIfNeeded(sleep analysis: SleepAnalysis) {
+        guard analysis.timestamp != lastSleepTimestamp else {
+            print("⛔️ Duplicate sleep data. Skipping upload.")
+            return
+        }
+        lastSleepTimestamp = analysis.timestamp
+        uploadSleepAnalysis(analysis)
     }
 
     // MARK: — Payload constructor

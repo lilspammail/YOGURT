@@ -122,14 +122,42 @@ public struct DailyEvening: Codable {
 
 // MARK: — Sleep
 public struct SleepAnalysis: Codable {
+    public let timestamp: String
     public let timeInBed: Int
     public let stages: SleepStages
+
+    public init(timestamp: String, timeInBed: Int, stages: SleepStages) {
+        self.timestamp = timestamp
+        self.timeInBed = timeInBed
+        self.stages = stages
+    }
 }
 
 public struct SleepStages: Codable {
     public let deep: Int
     public let light: Int
     public let rem: Int
+}
+
+// MARK: — Helper payloads
+public struct HealthMetricsPayload {
+    public let timestamp: String
+    public let metrics: [HourlyMetric]
+
+    public init(timestamp: String, metrics: [HourlyMetric]) {
+        self.timestamp = timestamp
+        self.metrics = metrics
+    }
+}
+
+public struct FullHealthData {
+    public let metrics: HealthMetricsPayload
+    public let sleep: SleepAnalysis
+
+    public init(metrics: HealthMetricsPayload, sleep: SleepAnalysis) {
+        self.metrics = metrics
+        self.sleep = sleep
+    }
 }
 
 // MARK: — Event-based sessions (e.g., sleep segments)

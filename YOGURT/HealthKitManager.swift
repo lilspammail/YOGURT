@@ -285,7 +285,9 @@ final class HealthKitManager {
                 default: break
                 }
             }
+            let last = (samples as? [HKCategorySample])?.map { $0.endDate }.max() ?? startToday
             let analysis = SleepAnalysis(
+                timestamp: last.isoString,
                 timeInBed: Int(inBed/60),
                 stages: SleepStages(deep: Int(deep/60), light: Int(light/60), rem: Int(rem/60))
             )
@@ -396,7 +398,9 @@ final class HealthKitManager {
                 default: break
                 }
             }
+            let last = (samples as? [HKCategorySample])?.map { $0.endDate }.max() ?? now
             sleepToday = SleepAnalysis(
+                timestamp: last.isoString,
                 timeInBed: Int(inBed/60),
                 stages: SleepStages(deep: Int(deep/60), light: Int(light/60), rem: Int(rem/60))
             )
@@ -472,7 +476,9 @@ final class HealthKitManager {
                 let observer = HKObserverQuery(sampleType: type, predicate: nil) { [weak self] _, completion, error in
                     guard error == nil else { completion(); return }
                     self?.collectHourlyMetrics { metrics in
-                        UploadService.shared.uploadHourlyMetricsOnce(metrics)
+                        let stamp = metrics.last?.interval.end ?? ISO8601DateFormatter().string(from: Date())
+                        let payload = HealthMetricsPayload(timestamp: stamp, metrics: metrics)
+                        UploadService.shared.uploadIfNeeded(metrics: payload)
                         completion()
                     }
                 }
@@ -485,7 +491,9 @@ final class HealthKitManager {
         let sleepObserver = HKObserverQuery(sampleType: sleepType, predicate: nil) { [weak self] _, completion, error in
             guard error == nil else { completion(); return }
             self?.collectCombinedSleepAnalysis { analysis in
-                if let analysis = analysis { UploadService.shared.uploadSleepAnalysis(analysis) }
+                if let analysis = analysis {
+                    UploadService.shared.uploadIfNeeded(sleep: analysis)
+                }
                 completion()
             }
         }
@@ -497,7 +505,9 @@ final class HealthKitManager {
                 let obs = HKObserverQuery(sampleType: mindful, predicate: nil) { [weak self] _, completion, error in
                     guard error == nil else { completion(); return }
                     self?.collectHourlyMetrics { metrics in
-                        UploadService.shared.uploadHourlyMetricsOnce(metrics)
+                        let stamp = metrics.last?.interval.end ?? ISO8601DateFormatter().string(from: Date())
+                        let payload = HealthMetricsPayload(timestamp: stamp, metrics: metrics)
+                        UploadService.shared.uploadIfNeeded(metrics: payload)
                         completion()
                     }
                 }
@@ -676,7 +686,9 @@ final class HealthKitManager {
                 default: break
                 }
             }
+            let last = (samples as? [HKCategorySample])?.map { $0.endDate }.max() ?? nowTime
             let analysis = SleepAnalysis(
+                timestamp: last.isoString,
                 timeInBed: Int(inBed / 60),
                 stages: SleepStages(deep: Int(deep / 60), light: Int(light / 60), rem: Int(rem / 60))
             )

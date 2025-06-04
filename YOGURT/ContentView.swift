@@ -9,8 +9,9 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 20) {
             Button("Send Hourly Now") {
-                HealthKitManager.shared.collectHourlyMetrics { metrics in
-                    UploadService.shared.uploadHourlyMetricsOnce(metrics)
+                HealthDataFetcher.shared.fetchAllHealthData { payload in
+                    UploadService.shared.uploadIfNeeded(metrics: payload.metrics)
+                    UploadService.shared.uploadIfNeeded(sleep: payload.sleep)
                 }
             }
         }
@@ -23,13 +24,9 @@ struct ContentView: View {
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 print("🔔 Scene became active — forcing data sync")
-                HealthKitManager.shared.collectHourlyMetrics { metrics in
-                    UploadService.shared.uploadHourlyMetricsOnce(metrics)
-                }
-                HealthKitManager.shared.collectCombinedSleepAnalysis {
-                    if let sleep = $0 {
-                        UploadService.shared.uploadSleepAnalysis(sleep)
-                    }
+                HealthDataFetcher.shared.fetchAllHealthData { payload in
+                    UploadService.shared.uploadIfNeeded(metrics: payload.metrics)
+                    UploadService.shared.uploadIfNeeded(sleep: payload.sleep)
                 }
             }
         }
