@@ -48,4 +48,5 @@ struct HealthWebhookApp: App {
             UploadService.shared.debugSendHourlyNow()
         }
     }
+    
 }
