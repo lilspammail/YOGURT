@@ -81,32 +81,33 @@ final class UploadService {
 
     // MARK: — Сбор payload
     private func collectHourlyPayload(completion: @escaping (HealthPayload) -> Void) {
-        let metrics = HealthKitManager.shared.cachedHourlyMetrics()
-        let now = Date()
-        if #available(iOS 18.0, *) {
-            let start = Calendar.current.startOfDay(for: now)
-            HealthKitManager.shared.collectFullMoodData(from: start, to: now) { moods in
+        HealthKitManager.shared.collectHourlyMetrics { metrics in
+            let now = Date()
+            if #available(iOS 18.0, *) {
+                let start = Calendar.current.startOfDay(for: now)
+                HealthKitManager.shared.collectFullMoodData(from: start, to: now) { moods in
+                    HealthKitManager.shared.collectCombinedSleepAnalysis { sleep in
+                        HealthKitManager.shared.collectSleepEvents { sleepEvents in
+                            let moodSessions = moods.map { $0.toMoodSession() }
+                            completion(self.buildPayload(
+                                metrics: metrics,
+                                sleepAnalysis: sleep,
+                                moodSessions: moodSessions,
+                                healthEvents: sleepEvents    // ← добавлено
+                            ))
+                        }
+                    }
+                }
+            } else {
                 HealthKitManager.shared.collectCombinedSleepAnalysis { sleep in
                     HealthKitManager.shared.collectSleepEvents { sleepEvents in
-                        let moodSessions = moods.map { $0.toMoodSession() }
                         completion(self.buildPayload(
                             metrics: metrics,
                             sleepAnalysis: sleep,
-                            moodSessions: moodSessions,
-                            healthEvents: sleepEvents    // ← добавлено
+                            moodSessions: nil,
+                            healthEvents: sleepEvents     // ← добавлено
                         ))
                     }
-                }
-            }
-        } else {
-            HealthKitManager.shared.collectCombinedSleepAnalysis { sleep in
-                HealthKitManager.shared.collectSleepEvents { sleepEvents in
-                    completion(self.buildPayload(
-                        metrics: metrics,
-                        sleepAnalysis: sleep,
-                        moodSessions: nil,
-                        healthEvents: sleepEvents     // ← добавлено
-                    ))
                 }
             }
         }
