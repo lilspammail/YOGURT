@@ -7,6 +7,7 @@ struct SendHealthDataIntent: AppIntent {
         await MainActor.run {
             UploadService.shared.debugSendHourlyNow()
         }
-        return .result()
+        // Suppress the default completion announcement
+        return .result(dialog: IntentDialog(""))
     }
 }
